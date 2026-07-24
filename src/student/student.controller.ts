@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body,Patch,Delete,Param } from '@nestjs/common';
+import { Controller, Get, Post, Body,Patch,Delete,Param,NotFoundException } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 
@@ -15,7 +15,17 @@ export class StudentController {
       data: data
     };
   }
-
+@Get(':id')
+getStudentById(@Param('id') id: string) {
+  const data = this.studentService.getStudentById(Number(id));
+  
+  if (!data) {
+    // This will trigger our new Global Exception Filter!
+    throw new NotFoundException(`Student with ID ${id} not found`); 
+  }
+  
+  return { message: 'Success', data };
+}
   @Post()
   createStudent(@Body() newStudent: CreateStudentDto) {
     const data = this.studentService.createStudent(newStudent);

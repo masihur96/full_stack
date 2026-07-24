@@ -10,7 +10,10 @@ export class StudentService {
   getAllStudents() {
     return this.students;
   }
-
+// Fetch a single student by ID
+  getStudentById(id: number) {
+    return this.students.find((s) => s.id === id);
+  }
   createStudent(newStudent: any) {
     const student = {
       id: this.students.length + 1,
