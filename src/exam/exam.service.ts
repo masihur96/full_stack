@@ -58,4 +58,19 @@ export class ExamService {
       where: { id },
     });
   }
+
+  // ENROLL A STUDENT IN AN EXAM
+  async enrollStudent(examId: number, studentId: number) {
+    return this.prisma.exam.update({
+      where: { id: examId },
+      data: {
+        students: {
+          connect: { id: studentId }, // This automatically links the two records!
+        },
+      },
+      include: {
+        students: true, // Return the updated list of students
+      },
+    });
+  }
 }
