@@ -73,4 +73,23 @@ export class ExamService {
       },
     });
   }
+
+
+  // ADVANCED QUERY: Fetch all exams for a specific student
+  async findExamsByStudent(studentId: number) {
+    return this.prisma.exam.findMany({
+      where: {
+        students: {
+          some: {
+            id: studentId, // Finds any exam where this student ID exists in the students list
+          },
+        },
+      },
+      include: {
+        teacher: {
+          select: { name: true }, // Extra touch: grab the teacher's name so the student knows who made it
+        },
+      },
+    });
+  }
 }

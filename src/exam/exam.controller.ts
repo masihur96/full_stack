@@ -7,6 +7,20 @@ import { UpdateExamDto } from './dto/update-exam.dto';
 export class ExamController {
   constructor(private readonly examService: ExamService) {}
 
+
+@Post(':examId/enroll/:studentId')
+  enrollStudent(
+    @Param('examId', ParseIntPipe) examId: number,
+    @Param('studentId', ParseIntPipe) studentId: number,
+  ) {
+    return this.examService.enrollStudent(examId, studentId);
+  }
+
+  @Get('student/:studentId')
+  findExamsByStudent(@Param('studentId', ParseIntPipe) studentId: number) {
+    return this.examService.findExamsByStudent(studentId);
+  }
+
   @Post()
   create(@Body() createExamDto: CreateExamDto) {
     return this.examService.create(createExamDto);
